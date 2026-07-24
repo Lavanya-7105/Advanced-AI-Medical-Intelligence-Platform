@@ -4,11 +4,25 @@ import numpy as np
 from PIL import Image
 import os
 import sqlite3
+import gdown
 
 app = Flask(__name__)
 
 # Load trained model
-model = tf.keras.models.load_model("model/pneumonia_model.keras")
+
+
+
+MODEL_PATH = "model/pneumonia_model.keras"
+
+if not os.path.exists(MODEL_PATH):
+    os.makedirs("model", exist_ok=True)
+    gdown.download(
+        "https://drive.google.com/uc?id=1X9jFJfrV8SlEgCwnT9u1hdijLPxUWXLT",
+        MODEL_PATH,
+        quiet=False
+    )
+    model = tf.keras.models.load_model(MODEL_PATH)
+
 
 UPLOAD_FOLDER = "static/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
